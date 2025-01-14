@@ -46,8 +46,6 @@ tolerations: []
 
 affinity: {}
 
-# Annotations for the Deployment
-applicationAnnotations: {}
-
-# Annotations for the Pod
-podAnnotations: {}
+applicationAnnotations:
+  argocd.argoproj.io/sync-wave: "2"
+  # Add any other annotations you want
