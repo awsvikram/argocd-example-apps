@@ -8,11 +8,9 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
-    # Dynamically inherit annotations from the ArgoCD Application
-    {{- if .metadata.annotations }}
-    {{- range $key, $value := .metadata.annotations }}
-    {{ $key }}: "{{ $value }}"
-    {{- end }}
+    # Add application-level annotations dynamically
+    {{- with .Values.applicationAnnotations }}
+    {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -26,6 +24,11 @@ spec:
       labels:
         app: {{ template "helm-guestbook.name" . }}
         release: {{ .Release.Name }}
+    annotations:
+        # Safely add annotations at the pod level
+        {{- with .metadata.annotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
