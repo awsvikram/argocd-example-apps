@@ -29,6 +29,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
         kubectl.kubernetes.io/restartedAt: {{ now | quote }} # Use quote to ensure proper formatting
+        rollme: {{ randAlphaNum 5 | quote }} # This will generate a random string on each deployment
     spec:
       containers:
         - name: {{ .Chart.Name }}
