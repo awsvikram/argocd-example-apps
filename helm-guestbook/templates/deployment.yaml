@@ -43,7 +43,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: LAST_RESTART
-              value: {{ now | quote }}
+              value: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}
