@@ -11,6 +11,7 @@ metadata:
     {{- with .Values.applicationAnnotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    argocd.argoproj.io/sync-options: Validate=false
     kubectl.kubernetes.io/restartedAt: {{ now | quote }} # Use quote to ensure proper formatting
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -28,13 +29,16 @@ spec:
         {{- with .Values.applicationAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        kubectl.kubernetes.io/restartedAt: {{ now | quote }} # Use quote to ensure proper formatting
-        rollme: {{ randAlphaNum 5 | quote }} # This will generate a random string on each deployment
+        kubectl.kubernetes.io/restartedAt: {{ now | quote }}
+        rollme: {{ randAlphaNum 5 | quote }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: LAST_RESTART
+              value: {{ now | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}
