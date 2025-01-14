@@ -7,6 +7,13 @@ metadata:
     chart: {{ template "helm-guestbook.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  annotations:
+    # Dynamically inherit annotations from the ArgoCD Application
+    {{- if .metadata.annotations }}
+    {{- range $key, $value := .metadata.annotations }}
+    {{ $key }}: "{{ $value }}"
+    {{- end }}
+    {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
