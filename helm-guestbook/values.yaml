@@ -46,5 +46,8 @@ tolerations: []
 
 affinity: {}
 
-# Placeholder for dynamic annotations
+# Annotations for the Deployment
 applicationAnnotations: {}
+
+# Annotations for the Pod
+podAnnotations: {}
