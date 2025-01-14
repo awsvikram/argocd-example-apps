@@ -12,7 +12,10 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
     argocd.argoproj.io/sync-options: Validate=false
-    kubectl.kubernetes.io/restartedAt: {{ now | quote }} # Use quote to ensure proper formatting
+    # Add a sync-wave annotation to ensure proper ordering
+    argocd.argoproj.io/sync-wave: "1"
+    # Use a combination of date and random string
+    kubectl.kubernetes.io/restartedAt: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
@@ -29,8 +32,10 @@ spec:
         {{- with .Values.applicationAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        kubectl.kubernetes.io/restartedAt: {{ now | quote }}
-        rollme: {{ randAlphaNum 5 | quote }}
+        # Use timestamp in RFC3339 format
+        kubectl.kubernetes.io/restartedAt: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"
+        # Combine timestamp with random string for more uniqueness
+        rollme: "{{ now | date "20060102150405" }}-{{ randAlphaNum 5 }}"
     spec:
       containers:
         - name: {{ .Chart.Name }}
