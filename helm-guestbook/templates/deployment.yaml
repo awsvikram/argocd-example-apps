@@ -7,11 +7,10 @@ metadata:
     chart: {{ template "helm-guestbook.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  {{- with .Values.applicationAnnotations }}
   annotations:
-    # Add application-level annotations dynamically
-    {{- with .Values.applicationAnnotations }}
     {{- toYaml . | nindent 4 }}
-    {{- end }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
@@ -24,11 +23,10 @@ spec:
       labels:
         app: {{ template "helm-guestbook.name" . }}
         release: {{ .Release.Name }}
-    annotations:
-        # Safely add annotations at the pod level
-        {{- with .metadata.annotations }}
+      {{- with .Values.podAnnotations }}
+      annotations:
         {{- toYaml . | nindent 8 }}
-        {{- end }}
+      {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
