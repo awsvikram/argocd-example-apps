@@ -45,3 +45,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Placeholder for dynamic annotations
+applicationAnnotations: {}
