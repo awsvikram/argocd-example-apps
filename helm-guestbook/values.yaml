@@ -49,3 +49,4 @@ affinity: {}
 applicationAnnotations:
   argocd.argoproj.io/sync-wave: "1"
   # Add any other annotations you want
+  argocd.argoproj.io/sync-options: Validate=false
