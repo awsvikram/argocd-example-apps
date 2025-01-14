@@ -49,4 +49,4 @@ affinity: {}
 applicationAnnotations:
   argocd.argoproj.io/sync-wave: "2"
   # Add any other annotations you want
-  kubectl.kubernetes.io/restartedAt: {{ now | date "2006-01-02T15:04:05.000000" }}
+  kubectl.kubernetes.io/restartedAt: ""  # placeholder
