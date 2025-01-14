@@ -47,5 +47,5 @@ tolerations: []
 affinity: {}
 
 applicationAnnotations:
-  argocd.argoproj.io/sync-wave: "2"
+  argocd.argoproj.io/sync-wave: "1"
   # Add any other annotations you want
