@@ -11,6 +11,7 @@ metadata:
     {{- with .Values.applicationAnnotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    kubectl.kubernetes.io/restartedAt: {{ now | date "2006-01-02T15:04:05.000000" }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
@@ -27,6 +28,7 @@ spec:
         {{- with .Values.applicationAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        kubectl.kubernetes.io/restartedAt: {{ now | date "2006-01-02T15:04:05.000000" }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
