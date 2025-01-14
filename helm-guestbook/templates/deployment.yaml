@@ -11,11 +11,9 @@ metadata:
     {{- with .Values.applicationAnnotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    argocd.argoproj.io/sync-options: Validate=false
-    # Add a sync-wave annotation to ensure proper ordering
-    argocd.argoproj.io/sync-wave: "1"
     # Use a combination of date and random string
     kubectl.kubernetes.io/restartedAt: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"
+    rollme: "{{ now | date "20060102150405" }}-{{ randAlphaNum 5 }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
