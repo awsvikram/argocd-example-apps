@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: failing-pod
+  namespace: helm-guestbook
+spec:
+  containers:
+    - name: failing-pod
+      image: busybox:1.30.1
+      command:
+        - sh
+        - "-c"
+        - >-
+          >&2 echo "Application ran out of memory. Try restarting the application" && kill 1
